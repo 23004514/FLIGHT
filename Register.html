@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Create an Account</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      z-index: 0;
+    }
+
+    .form-container {
+      position: relative;
+      z-index: 1;
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      width: 260px;
+      padding: 1.2rem 1.5rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeSlideUp 1s ease-out forwards;
+    }
+
+    @keyframes fadeSlideUp {
+      0% {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+      color: #fff;
+      text-shadow: 0 0 8px rgba(0,0,0,0.7);
+      font-size: 1.4rem;
+      letter-spacing: 0.5px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.2rem;
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.4rem;
+      margin-bottom: 0.6rem;
+      border-radius: 5px;
+      border: none;
+      outline: none;
+      font-size: 0.9rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    input:focus, select:focus {
+      box-shadow: 0 0 6px #4caf50;
+    }
+
+    button {
+      width: 100%;
+      padding: 0.5rem;
+      background-color: #4caf50;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #45a049;
+      transform: scale(1.02);
+    }
+
+    .error {
+      color: #ffbaba;
+      background-color: #700000a0;
+      font-size: 0.8rem;
+      margin-bottom: 0.8rem;
+      padding: 0.4rem;
+      border-radius: 4px;
+      display: none;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+
+  <div class="form-container">
+    <h2>Register</h2>
+    <form id="registerForm" novalidate>
+      <label for="Surname">Surname</label>
+      <input type="text" id="Surname" name="Surname" required placeholder="Enter surname">
+
+      <label for="Name">Name</label>
+      <input type="text" id="Name" name="Name" required placeholder="Enter name">
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required placeholder="Enter email">
+
+      <label for="cellphone">Cell Phone</label>
+      <input type="tel" id="cellphone" name="cellphone" pattern="[0-9]{10,15}" required placeholder="Digits only">
+
+      <label for="Country">Country</label>
+      <select id="Country" name="Country" required>
+        <option value="" disabled selected>Select country</option>
+        <option>Eastern Cape</option>
+        <option>Free State</option>
+        <option>Gauteng</option>
+        <option>KwaZulu-Natal</option>
+        <option>Limpopo</option>
+        <option>Northern Cape</option>
+        <option>Mpumalanga</option>
+        <option>North West</option>
+        <option>Western Cape</option>
+      </select>
+
+      <label for="gender">Gender</label>
+      <select id="gender" name="gender" required>
+        <option value="" disabled selected>Select gender</option>
+        <option>Male</option>
+        <option>Female</option>
+        <option>Other</option>
+      </select>
+
+      <label for="IDNO">ID Number</label>
+      <input type="text" id="IDNO" name="IDNO" pattern="[0-9]{10,15}" required placeholder="Enter ID number">
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required placeholder="Enter password">
+
+      <label for="confirmPassword">Confirm Password</label>
+      <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Confirm password">
+
+      <div id="errorMsg" class="error"></div>
+
+      <button type="button" onclick="validateForm()">Register</button>
+    </form>
+  </div>
+
+  <script>
+    function validateForm() {
+      const Surname = document.getElementById('Surname').value.trim();
+      const Name = document.getElementById('Name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const cellphone = document.getElementById('cellphone').value.trim();
+      const Country = document.getElementById('Country').value;
+      const gender = document.getElementById('gender').value;
+      const IDNO = document.getElementById('IDNO').value.trim();
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      const errorMsg = document.getElementById('errorMsg');
+
+      errorMsg.style.display = 'none';
+
+      if (!Surname || !Name || !email || !cellphone || !Country || !gender || !IDNO || !password || !confirmPassword) {
+        return showError("Please fill in all fields.");
+      }
+      if (!/^[0-9]{10,15}$/.test(cellphone)) return showError("Invalid cellphone number.");
+      if (!/^[0-9]{10,15}$/.test(IDNO)) return showError("Invalid ID number.");
+      if (password.length < 6) return showError("Password must be at least 6 characters.");
+      if (password !== confirmPassword) return showError("Passwords do not match.");
+	  
+      window.location.href = "HOME.html";
+    }
+
+    function showError(message) {
+      const errorMsg = document.getElementById('errorMsg');
+      errorMsg.textContent = message;
+      errorMsg.style.display = 'block';
+    }
+  </script>
+</body>
+</html>

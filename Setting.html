@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Advanced Settings</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+    min-height: 100vh;
+    position: relative;
+  }
+
+  /* Overlay for better text readability */
+  body::before {
+    content:"";
+    position: fixed;
+    top:0; left:0; right:0; bottom:0;
+    background: rgba(0,0,0,0.35);
+    z-index:0;
+  }
+
+  .container {
+    position: relative;
+    z-index:1;
+    max-width:500px;
+    margin:50px auto;
+    padding:25px;
+    border-radius:10px;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow:0 4px 12px rgba(0,0,0,0.3);
+    color:#fff;
+  }
+
+  h2 {
+    text-align:center;
+    margin-bottom:20px;
+  }
+
+  .section {
+    margin-bottom:20px;
+  }
+
+  .section h3 {
+    margin-bottom:12px;
+  }
+
+  .setting {
+    margin-bottom:12px;
+  }
+
+  label {
+    display:block;
+    margin-bottom:6px;
+    font-weight:bold;
+    color:#fff;
+  }
+
+  input[type="text"],
+  input[type="password"],
+  select {
+    width:100%;
+    padding:10px;
+    border-radius:5px;
+    border:1px solid #ccc;
+    font-size:14px;
+    box-sizing:border-box;
+  }
+
+  .toggle {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+
+  .toggle input {
+    transform:scale(1.2);
+    cursor:pointer;
+  }
+
+  .save-btn {
+    display:block;
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:6px;
+    font-size:16px;
+    cursor:pointer;
+    background:#0078d7;
+    color:#fff;
+    transition: background 0.3s ease;
+  }
+
+  .save-btn:hover {
+    background:#005fa3;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Advanced Settings</h2>
+
+  <div class="section">
+    <h3>Privacy & Security</h3>
+    <div class="setting toggle">
+      <label for="2fa">Enable Two-Factor Authentication</label>
+      <input type="checkbox" id="2fa" />
+    </div>
+    <div class="setting">
+      <label for="password">Change Password</label>
+      <input type="password" id="password" placeholder="Enter new password" />
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>System Preferences</h3>
+    <div class="setting">
+      <label for="theme">Theme</label>
+      <select id="theme">
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+        <option value="auto">Auto</option>
+      </select>
+    </div>
+    <div class="setting">
+      <label for="timezone">Time Zone</label>
+      <select id="timezone">
+        <option value="UTC+2">South Africa (UTC+2)</option>
+        <option value="UTC+1">Central Europe (UTC+1)</option>
+        <option value="UTC-5">Eastern US (UTC-5)</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>Developer Options</h3>
+    <div class="setting toggle">
+      <label for="debug">Enable Debug Mode</label>
+      <input type="checkbox" id="debug" />
+    </div>
+    <div class="setting toggle">
+      <label for="beta">Join Beta Program</label>
+      <input type="checkbox" id="beta" />
+    </div>
+  </div>
+
+  <button class="save-btn">Save Changes</button>
+</div>
+
+<script>
+  // Load saved settings
+  window.onload = () => {
+    document.getElementById('2fa').checked = localStorage.getItem('2fa') === 'true';
+    document.getElementById('password').value = localStorage.getItem('password') || '';
+    document.getElementById('theme').value = localStorage.getItem('theme') || 'light';
+    document.getElementById('timezone').value = localStorage.getItem('timezone') || 'UTC+2';
+    document.getElementById('debug').checked = localStorage.getItem('debug') === 'true';
+    document.getElementById('beta').checked = localStorage.getItem('beta') === 'true';
+  };
+
+  document.querySelector('.save-btn').addEventListener('click', () => {
+    localStorage.setItem('2fa', document.getElementById('2fa').checked);
+    localStorage.setItem('password', document.getElementById('password').value);
+    localStorage.setItem('theme', document.getElementById('theme').value);
+    localStorage.setItem('timezone', document.getElementById('timezone').value);
+    localStorage.setItem('debug', document.getElementById('debug').checked);
+    localStorage.setItem('beta', document.getElementById('beta').checked);
+    alert('Settings saved successfully!');
+  });
+</script>
+
+</body>
+</html>

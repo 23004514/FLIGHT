@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flight Booking Calendar</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(to bottom right, #f0f8ff, #e9ecef);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 30px;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
+      max-width: 850px;
+    }
+
+    h1 {
+      text-align: center;
+      width: 100%;
+      margin-bottom: 20px;
+      color: #007bff;
+    }
+
+    .calendar-container {
+      flex: 1 1 350px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+
+    .calendar-container h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .calendar div {
+      padding: 10px;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .calendar div:hover {
+      background: #007bff;
+      color: white;
+    }
+
+    .calendar .header {
+      font-weight: bold;
+      color: #555;
+      cursor: default;
+    }
+
+    .calendar .selected {
+      background: #007bff;
+      color: white;
+    }
+
+    .reminder-box {
+      flex: 1 1 300px;
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .reminder-box h3 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .reminder-box input, 
+    .reminder-box textarea, 
+    .reminder-box button {
+      width: 100%;
+      margin-top: 10px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    .reminder-box button {
+      background: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .reminder-box button:hover {
+      background: #0056b3;
+    }
+
+    .reminder-list {
+      margin-top: 15px;
+      list-style: none;
+      padding: 0;
+    }
+
+    .reminder-list li {
+      background: #f1f3f5;
+      border-radius: 5px;
+      padding: 8px;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Flight Booking Calendar ✈️</h1>
+
+    <div class="calendar-container">
+      <h2 id="monthYear"></h2>
+      <div class="calendar" id="calendar"></div>
+    </div>
+
+    <div class="reminder-box">
+      <h3>Set Reminder</h3>
+      <label for="reminderDate">Date:</label>
+      <input type="text" id="reminderDate" readonly>
+
+      <label for="reminderText">Note:</label>
+      <textarea id="reminderText" rows="3" placeholder="e.g., Flight to Cape Town at 9 AM"></textarea>
+
+      <button onclick="addReminder()">Add Reminder</button>
+
+      <ul class="reminder-list" id="reminderList"></ul>
+    </div>
+  </div>
+
+  <script>
+    const monthYear = document.getElementById("monthYear");
+    const calendar = document.getElementById("calendar");
+    const reminderDate = document.getElementById("reminderDate");
+    const reminderList = document.getElementById("reminderList");
+    const now = new Date();
+
+    const months = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+
+    function loadCalendar() {
+      const firstDay = new Date(now.getFullYear(), now.getMonth(), 1).getDay();
+      const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+      monthYear.textContent = `${months[now.getMonth()]} ${now.getFullYear()}`;
+      calendar.innerHTML = `
+        <div class="header">Sun</div>
+        <div class="header">Mon</div>
+        <div class="header">Tue</div>
+        <div class="header">Wed</div>
+        <div class="header">Thu</div>
+        <div class="header">Fri</div>
+        <div class="header">Sat</div>
+      `;
+
+      for (let i = 0; i < firstDay; i++) {
+        calendar.innerHTML += "<div></div>";
+      }
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const div = document.createElement("div");
+        div.textContent = day;
+        div.addEventListener("click", () => selectDate(day));
+        calendar.appendChild(div);
+      }
+    }
+
+    function selectDate(day) {
+      document.querySelectorAll(".calendar div").forEach(d => d.classList.remove("selected"));
+      const selected = [...calendar.children].find(el => el.textContent == day);
+      if (selected) selected.classList.add("selected");
+      reminderDate.value = `${day} ${months[now.getMonth()]} ${now.getFullYear()}`;
+    }
+
+    function addReminder() {
+      const date = reminderDate.value;
+      const text = document.getElementById("reminderText").value.trim();
+      if (!date || !text) {
+        alert("Please select a date and enter a reminder note.");
+        return;
+      }
+      const li = document.createElement("li");
+      li.textContent = `${date}: ${text}`;
+      reminderList.appendChild(li);
+      document.getElementById("reminderText").value = "";
+      alert(`Reminder set for ${date}`);
+    }
+
+    loadCalendar();
+  </script>
+
+</body>
+</html>

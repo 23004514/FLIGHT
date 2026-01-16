@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Contact - South African Airline</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: url('https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1400&q=80') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: -1;
+    }
+
+    header {
+      background: rgba(0, 120, 215, 0.6);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #00eaff;
+    }
+
+    .contact-container {
+      max-width: 900px;
+      margin: 60px auto;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(8px);
+      border-radius: 15px;
+      padding: 40px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #00eaff;
+    }
+
+    .contact-info {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .contact-info p {
+      font-size: 1.1rem;
+      margin: 6px 0;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    label {
+      font-weight: 600;
+    }
+
+    input, textarea {
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    textarea {
+      background: rgba(255, 255, 255, 0.9);
+      color: #000;
+    }
+
+    textarea {
+      resize: none;
+      height: 120px;
+    }
+
+    button {
+      padding: 12px;
+      background: #0078d7;
+      color: #fff;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background: #005fa3;
+    }
+
+    .map {
+      margin-top: 40px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    iframe {
+      width: 100%;
+      height: 300px;
+      border: none;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.6);
+      color: #ccc;
+      margin-top: 50px;
+    }
+
+    footer a {
+      color: #00eaff;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>South African Airline</h1>
+    <nav>
+      <a href="HOME.html">Home</a>
+      <a href="Booking.html">Booking</a>
+      <a href="Calendar.html">Calendar</a>
+      <a href="about.html">About</a>
+    </nav>
+  </header>
+
+  <div class="contact-container">
+    <h2>Contact Us</h2>
+
+    <div class="contact-info">
+      <p><strong>📍 Address:</strong> 123 Aviation Street, Johannesburg, South Africa</p>
+      <p><strong>📞 Phone:</strong> +27 10 123 4567</p>
+      <p><strong>📧 Email:</strong> support@saairline.co.za</p>
+      <p><strong>🕒 Working Hours:</strong> Mon - Fri | 8:00 AM - 5:00 PM</p>
+    </div>
+
+    <form id="contactForm">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" placeholder="Enter your name" required>
+
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+      <label for="message">Message</label>
+      <textarea id="message" name="message" placeholder="Write your message..." required></textarea>
+
+      <button type="submit">Send Message</button>
+    </form>
+
+    <div class="map">
+      <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3585.766059940508!2d28.047305315028497!3d-26.20410298344166!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1e950dce4c1a4e1d%3A0x81a4b94af4f83b8a!2sJohannesburg%2C%20South%20Africa!5e0!3m2!1sen!2sza!4v1614943872572!5m2!1sen!2sza"
+        allowfullscreen="" loading="lazy"></iframe>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 South African Airline. All rights reserved. | 
+    <a href="about.html">About Us</a>
+  </footer>
+
+  <script>
+    // Simple form submission message
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Thank you for contacting us! Our support team will get back to you shortly.');
+      this.reset();
+    });
+  </script>
+
+</body>
+</html>

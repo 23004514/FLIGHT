@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LOG IN</title>
+  <style>
+    body {
+      background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+      background-size: cover;
+      font-family: Helvetica, Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(15px);
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+      width: 360px;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #42b72a;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #36a420;
+    }
+
+    .link {
+      margin-top: 15px;
+      display: inline-block;
+      color: #1877f2;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>WELCOME</h1>
+    <form id="registerForm">
+      <input type="text" id="Name" placeholder="First Name" required />
+      <input type="text" id="Surname" placeholder="Last Name" required />
+      <input type="email" id="Email" placeholder="Email" required />
+      <input type="text" id="Cellphone" placeholder="Phone Number" required />
+      <input type="password" id="Password" placeholder="Password" required />
+      <button type="submit">LOG IN</button>
+    </form>
+
+    <a href="Register.html" class="link">Already have an account? Log in</a>
+  </div>
+
+<script>
+  document.getElementById('registerForm').addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    const Name = document.getElementById('Name').value.trim();
+    const Surname = document.getElementById('Surname').value.trim();
+    const Email = document.getElementById('Email').value.trim();
+    const Cellphone = document.getElementById('Cellphone').value.trim();
+    const Password = document.getElementById('Password').value.trim();
+
+    if (!Name || !Surname || !Email || !Cellphone || !Password) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    // Load existing users
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+
+    // 🔐 SECURITY CHECK: user must have registered before
+    if (users.length === 0) {
+      alert("No registered users found. Please register first.");
+      return;
+    }
+
+    // Check if email or phone already exists
+    const exists = users.some(
+      u => u.email === Email || u.cellphone === Cellphone
+    );
+    if (exists) {
+      alert("An account with that email or phone already exists.");
+      return;
+    }
+
+    // Add new user
+    users.push({ Name, Surname, email: Email, cellphone: Cellphone, password: Password });
+    localStorage.setItem('users', JSON.stringify(users));
+    window.location.href = "HOME.html";
+  });
+  
+	// Load existing users
+	const users = JSON.parse(localStorage.getItem('users')) || [];
+
+	// 🔐 SECURITY CHECK: must be registered first
+	if (users.length === 0) {
+	  alert("No registered users found. Please register first.");
+	  return;
+	}
+</script>
+
+</body>
+</html>

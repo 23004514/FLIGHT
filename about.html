@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us - South African Airline</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: url('https://images.unsplash.com/photo-1529070538774-1843cb3265df?auto=format&fit=crop&w=1400&q=80') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: -1;
+    }
+
+    header {
+      background: rgba(0, 120, 215, 0.6);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #00eaff;
+    }
+
+    .about-container {
+      max-width: 900px;
+      margin: 60px auto;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(8px);
+      border-radius: 15px;
+      padding: 40px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .about-container h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #00eaff;
+    }
+
+    .about-container p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      margin-bottom: 20px;
+      text-align: justify;
+    }
+
+    .team-section {
+      margin-top: 40px;
+    }
+
+    .team-members {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .member {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      padding: 20px;
+      width: 250px;
+      text-align: center;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .member img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin-bottom: 10px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.6);
+      position: relative;
+      bottom: 0;
+      width: 100%;
+      color: #ccc;
+      margin-top: 50px;
+    }
+
+    footer a {
+      color: #00eaff;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>South African Airline</h1>
+    <nav>
+      <a href="HOME.html">Home</a>
+      <a href="Booking.html">Booking</a>
+      <a href="Calendar.html">Calendar</a>
+      <a href="our_contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <div class="about-container">
+    <h2>About Us</h2>
+    <p>
+      Welcome to <strong>South African Airline</strong> — your trusted partner for affordable, safe, and convenient flight bookings across South Africa.
+      Our platform connects travelers with the best flight options between all major provinces, ensuring a smooth and reliable booking experience.
+    </p>
+
+    <p>
+      Founded with the vision to make air travel accessible to everyone, we combine technology and passion for aviation to deliver exceptional service.
+      Whether you’re traveling for business or leisure, our goal is to make every journey enjoyable, comfortable, and stress-free.
+    </p>
+
+    <p>
+      We value customer satisfaction, security, and transparency. That’s why our booking system is designed to be fast, simple, and secure.
+      With real-time flight updates, reminders, and support, we ensure you never miss your next destination.
+    </p>
+
+    <div class="team-section">
+      <h2>Meet Our Team</h2>
+      <div class="team-members">
+        <div class="member">
+          <img src="https://cdn-icons-png.flaticon.com/512/194/194935.png" alt="Team Member">
+          <h3>Kowny</h3>
+          <p>Lead Developer</p>
+        </div>
+        <div class="member">
+          <img src="https://cdn-icons-png.flaticon.com/512/194/194936.png" alt="Team Member">
+          <h3>Thabo</h3>
+          <p>Operations Manager</p>
+        </div>
+        <div class="member">
+        <img src="https://cdn-icons-png.flaticon.com/512/194/194938.png" alt="Team Member">  
+          <h3>Ayanda</h3>
+          <p>Customer Support</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 South African Airline. All rights reserved. |
+    <a href="our contact.html">Contact Us</a>
+  </footer>
+
+</body>
+</html>

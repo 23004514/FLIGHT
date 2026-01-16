@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flight Booking - South African Airline</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0; padding: 20px;
+    min-height: 100vh;
+    background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+    overflow-x: hidden;
+    transition: background 0.5s ease, color 0.5s ease;
+  }
+  body::before {
+    content:""; position: fixed; top:0; left:0; width:100%; height:100%;
+    background: rgba(0,0,0,0.5); z-index:-1; transition: background 0.5s ease;
+  }
+  h1 { text-align:center; margin-bottom:30px; font-size:2rem; text-shadow:0 0 10px rgba(0,0,0,0.6);}
+  .taskbar { display:flex; align-items:center; padding:10px 20px; margin-bottom:20px; border-radius:12px; flex-wrap:wrap; backdrop-filter:blur(8px); position:relative; box-shadow:0 4px 20px rgba(0,0,0,0.3);}
+  .task { margin-right:15px; padding:6px 14px; border-radius:8px; cursor:pointer; font-weight:500; text-decoration:none; display:flex; align-items:center; position:relative; transition: all 0.3s ease;}
+  .task:hover { transform:translateY(-2px); box-shadow:0 4px 12px rgba(0,255,255,0.4);}
+  .underline { position:absolute; bottom:0; left:0; height:3px; background-color:#00eaff; border-radius:3px; transition: all 0.3s ease;}
+  .taskbar1 { background-color: rgba(0,120,215,0.6);}
+  .taskbar2 { background-color: rgba(34,34,34,0.8);}
+  .taskbar3 { background-color: rgba(255,255,255,0.1); justify-content:space-around;}
+  .toggle-btn { position: fixed; bottom: 20px; right:20px; background: rgba(0,0,0,0.6); border:none; border-radius:50%; padding:10px 14px; cursor:pointer; color:#fff; font-size:1.2rem; box-shadow:0 3px 10px rgba(0,0,0,0.5); transition:all 0.3s ease; z-index:10;}
+  .toggle-btn:hover { background: rgba(0,0,0,0.8); transform: scale(1.1);}
+  @media(max-width:600px){.taskbar{flex-direction:column;padding:8px;}.task{margin-bottom:8px;}}
+  .petal { position: fixed; width:20px; height:20px; background:url('https://cdn-icons-png.flaticon.com/512/616/616408.png') no-repeat center center; background-size:contain; pointer-events:none; z-index:1; animation: fall linear infinite;}
+  @keyframes fall { 0%{transform:translateY(-50px) rotate(0deg); opacity:0;} 10%{opacity:1;} 100%{transform:translateY(110vh) rotate(360deg); opacity:0;} }
+
+  /* Dashboard */
+  .dashboard-container { position:relative; z-index:1; max-width:900px; margin:30px auto; display:grid; grid-template-columns:1fr 2fr; gap:20px;}
+  .card { background: rgba(255,255,255,0.1); padding:20px; border-radius:12px; backdrop-filter: blur(6px); box-shadow:0 2px 8px rgba(0,0,0,0.2);}
+  .card h3 { margin-top:0; margin-bottom:15px;}
+  .profile-info p { margin:5px 0;}
+  .quick-links a { display:block; color:#fff; text-decoration:none; margin-bottom:8px; padding:6px 10px; border-radius:5px; background: rgba(0,120,215,0.6); transition: background 0.3s;}
+  .quick-links a:hover { background: rgba(0,120,215,0.8);}
+  .recent-activity ul { list-style:none; padding:0; margin:0;}
+  .recent-activity li { margin-bottom:8px; padding:6px; border-radius:5px; background: rgba(255,255,255,0.1);}
+  /* Booking form */
+  #bookingForm label{display:block; margin-top:10px; margin-bottom:5px;}
+  #bookingForm select, #bookingForm input{width:100%; padding:8px; border-radius:6px; border:none; margin-bottom:10px; font-size:14px;}
+  #bookingForm button{background:#0078d7; color:#fff; border:none; padding:10px 15px; border-radius:6px; cursor:pointer; font-size:14px;}
+  #bookingForm button:hover{background:#005fa3;}
+  #bookingMessage{margin-top:10px;}
+</style>
+</head>
+<body>
+
+<h1>WELCOME TO THE SOUTH AFRICAN AIRLINE FLIET BOOKING</h1>
+
+<!-- Taskbars -->
+<div class="taskbar taskbar1">
+  <a class="task active" href="HOME.html">🏠 Home</a>
+  <a class="task" href="/files">📁 Files</a>
+  <a class="task" href="Setting.html">⚙️ Settings</a>
+  <a class="task" href="Help.html">❓ Help</a>
+  <div class="underline"></div>
+</div>
+<div class="taskbar taskbar2">
+  <a class="task active" href="dashboard">🏠 Dashboard</a>
+  <a class="task" href="Profile.html">👤 Profile</a>
+  <a class="task" href="/messages">🔔 Messages</a>
+  <a class="task" href="Log-in.html">🔓 Logout</a>
+  <div class="underline"></div>
+</div>
+<div class="taskbar taskbar3">
+  <a class="task active" href="Booking.html">💼 Booking</a>
+  <a class="task" href="Calendar.html">📅 Calendar</a>
+  <a class="task" href="/contacts">👥 Contacts</a>
+  <div class="underline"></div>
+</div>
+
+<button class="toggle-btn" id="themeToggle">🌙</button>
+
+<!-- Dashboard -->
+<div class="dashboard-container">
+  <!-- User Profile -->
+  <div class="card profile-info">
+    <h3>Your Details</h3>
+    <p><strong>Name:</strong> <span id="dashName">Loading...</span></p>
+    <p><strong>Email:</strong> <span id="dashEmail">Loading...</span></p>
+    <p><strong>Cell Phone:</strong> <span id="dashCell">Loading...</span></p>
+    <p><strong>Province:</strong> <span id="dashProvince">Loading...</span></p>
+  </div>
+
+  <!-- Booking Form -->
+  <div class="card">
+    <h3>Book a Flight ✈️</h3>
+    <form id="bookingForm">
+      <label>From Province:</label>
+      <select id="fromProvince" required></select>
+
+      <label>To Province:</label>
+      <select id="toProvince" required></select>
+
+      <label>Flight Date:</label>
+      <input type="date" id="flightDate" required>
+
+      <button type="submit">Book Flight</button>
+    </form>
+    <p id="bookingMessage"></p>
+  </div>
+</div>
+
+<script>
+// Taskbar underline logic
+document.querySelectorAll('.taskbar').forEach(taskbar => {
+  const underline = taskbar.querySelector('.underline');
+  const activeTask = taskbar.querySelector('.task.active');
+  moveUnderline(activeTask, underline);
+
+  taskbar.addEventListener('click', e => {
+    if(!e.target.classList.contains('task')) return;
+    taskbar.querySelectorAll('.task').forEach(t => t.classList.remove('active'));
+    e.target.classList.add('active');
+    moveUnderline(e.target, underline);
+  });
+
+  function moveUnderline(task, underline) {
+    const rect = task.getBoundingClientRect();
+    const parentRect = taskbar.getBoundingClientRect();
+    underline.style.width = `${rect.width}px`;
+    underline.style.transform = `translateX(${rect.left - parentRect.left}px)`;
+  }
+
+  window.addEventListener('resize', () => {
+    const active = taskbar.querySelector('.task.active');
+    if(active) moveUnderline(active, underline);
+  });
+});
+
+// Theme toggle and petals
+const toggleBtn = document.getElementById('themeToggle');
+let darkMode = true;
+toggleBtn.addEventListener('click', () => {
+  darkMode = !darkMode;
+  if(darkMode){
+    document.body.style.background = "url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed";
+    document.body.style.color = "#fff"; toggleBtn.textContent = "🌙"; removePetals();
+  } else {
+    document.body.style.background = "url('https://th.bing.com/th/id/R.fae070db362511a72c914ff8d0dc009d?rik=JFgJHnitIHX3FA&riu=http%3a%2f%2fgetwallpapers.com%2fwallpaper%2ffull%2f5%2ff%2fb%2f967407-gorgerous-beautiful-flowers-wallpaper-1920x1080-ipad-pro.jpg&ehk=Dxcbv993R7kUfO2COh0m3zvF61YjdoRK8aVTqQGRp1Q%3d&risl=&pid=ImgRaw&r=0') no-repeat center center fixed";
+    document.body.style.color = "#000"; toggleBtn.textContent = "☀️"; addPetals(30);
+  }
+});
+function addPetals(count){
+  for(let i=0;i<count;i++){
+    const petal = document.createElement('div');
+    petal.classList.add('petal');
+    petal.style.left = Math.random()*100 + "vw";
+    petal.style.animationDuration = (5 + Math.random()*10) + "s";
+    petal.style.opacity = Math.random();
+    document.body.appendChild(petal);
+  }
+}
+function removePetals(){ document.querySelectorAll('.petal').forEach(p => p.remove()); }
+
+// Load profile
+const users = JSON.parse(localStorage.getItem("users")) || [];
+const currentUser = users[0] || {};
+document.getElementById('dashName').textContent = currentUser.Name || 'Not set';
+document.getElementById('dashEmail').textContent = currentUser.email || 'Not set';
+document.getElementById('dashCell').textContent = currentUser.cellphone || 'Not set';
+document.getElementById('dashProvince').textContent = currentUser.Province || 'Not set';
+
+// Booking Form Logic
+const provinces = ["Gauteng","KwaZulu-Natal","Western Cape","Eastern Cape","Free State","Limpopo","Mpumalanga","North West","Northern Cape"];
+const fromSelect = document.getElementById('fromProvince');
+const toSelect = document.getElementById('toProvince');
+provinces.forEach(p=>{
+  const opt1=document.createElement('option'); opt1.value=p; opt1.textContent=p; fromSelect.appendChild(opt1);
+  const opt2=document.createElement('option'); opt2.value=p; opt2.textContent=p; toSelect.appendChild(opt2);
+});
+
+document.getElementById('bookingForm').addEventListener('submit', e=>{
+  e.preventDefault();
+  const from = fromSelect.value;
+  const to = toSelect.value;
+  const date = document.getElementById('flightDate').value;
+  if(from===to){ alert("Departure and destination cannot be the same."); return; }
+
+  // Save booking
+  const bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+  bookings.push({from,to,date,bookedAt: new Date().toLocaleString()});
+  localStorage.setItem('bookings', JSON.stringify(bookings));
+
+  // Add alert
+  const alerts = JSON.parse(localStorage.getItem('flightAlerts')) || [];
+  alerts.unshift({
+    title: "Flight Booking Confirmed!",
+    message: `Your flight from ${from} to ${to} on ${date} has been booked.`,
+    time: new Date().toLocaleString()
+  });
+  localStorage.setItem('flightAlerts', JSON.stringify(alerts));
+
+  document.getElementById('bookingMessage').textContent = `Flight booked from ${from} to ${to} on ${date}. Alert sent!`;
+  document.getElementById('bookingForm').reset();
+});
+</script>
+</body>
+</html>

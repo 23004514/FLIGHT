@@ -1,0 +1,1693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>South African Airline</title>
+  <style>
+    /* Global Styles */
+    :root {
+      --primary-color: #0078d7;
+      --secondary-color: #00eaff;
+      --success-color: #28a745;
+      --danger-color: #ff5252;
+      --light-color: #f8f9fa;
+      --dark-color: #343a40;
+      --glass-bg: rgba(255, 255, 255, 0.15);
+      --glass-border: rgba(255, 255, 255, 0.3);
+      --blur: blur(15px);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      min-height: 100vh;
+      transition: background 0.5s ease, color 0.5s ease;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: -1;
+      transition: background 0.5s ease;
+    }
+
+    body.light-theme {
+      background: url('https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1400&q=80') no-repeat center center fixed;
+      background-size: cover;
+      color: #333;
+    }
+
+    body.light-theme::before {
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Glass effect */
+    .glass {
+      background: var(--glass-bg);
+      backdrop-filter: var(--blur);
+      -webkit-backdrop-filter: var(--blur);
+      border: 1px solid var(--glass-border);
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Header Styles */
+    header {
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .light-theme .logo {
+      color: #333;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 20px;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+      padding: 8px 12px;
+      border-radius: 8px;
+    }
+
+    .light-theme nav a {
+      color: #333;
+    }
+
+    nav a:hover, nav a.active {
+      color: var(--secondary-color);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .auth-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .btn-primary {
+      background-color: var(--primary-color);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: #005fa3;
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      color: white;
+      border: 1px solid white;
+    }
+
+    .light-theme .btn-outline {
+      color: #333;
+      border: 1px solid #333;
+    }
+
+    .btn-outline:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Main Content Styles */
+    main {
+      padding: 40px 0;
+      min-height: calc(100vh - 160px);
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    /* Login/Register Form Styles */
+    .auth-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 80vh;
+    }
+
+    .auth-form {
+      width: 100%;
+      max-width: 400px;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .auth-form h1 {
+      margin-bottom: 20px;
+      font-size: 2rem;
+    }
+
+    .auth-form input {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .light-theme .auth-form input {
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .auth-form button {
+      width: 100%;
+      padding: 12px;
+      background-color: var(--success-color);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 10px;
+    }
+
+    .auth-form button:hover {
+      background-color: #218838;
+    }
+
+    .form-link {
+      margin-top: 15px;
+      display: inline-block;
+      color: var(--secondary-color);
+      text-decoration: none;
+    }
+
+    /* Dashboard Styles */
+    .dashboard-container {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 20px;
+    }
+
+    .card {
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .card h3 {
+      margin-bottom: 15px;
+      color: var(--secondary-color);
+    }
+
+    .profile-info p {
+      margin: 5px 0;
+    }
+
+    .quick-links a {
+      display: block;
+      color: #fff;
+      text-decoration: none;
+      margin-bottom: 8px;
+      padding: 6px 10px;
+      border-radius: 5px;
+      background: rgba(0, 120, 215, 0.6);
+      transition: background 0.3s;
+    }
+
+    .light-theme .quick-links a {
+      color: #333;
+    }
+
+    .quick-links a:hover {
+      background: rgba(0, 120, 215, 0.8);
+    }
+
+    /* Booking Form Styles */
+    #bookingForm label {
+      display: block;
+      margin-top: 10px;
+      margin-bottom: 5px;
+    }
+
+    #bookingForm select, #bookingForm input {
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+      border: none;
+      margin-bottom: 10px;
+      font-size: 14px;
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .light-theme #bookingForm select, .light-theme #bookingForm input {
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    #bookingForm button {
+      background: var(--primary-color);
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    #bookingForm button:hover {
+      background: #005fa3;
+    }
+
+    /* Calendar Styles */
+    .calendar-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 30px;
+      padding: 30px;
+    }
+
+    .calendar, .reminder-box {
+      flex: 1 1 350px;
+      padding: 20px;
+    }
+
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .calendar div {
+      padding: 10px;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .calendar div:hover {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    .calendar .header {
+      font-weight: bold;
+      color: var(--secondary-color);
+      cursor: default;
+    }
+
+    .calendar .selected {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    .reminder-box input, 
+    .reminder-box textarea, 
+    .reminder-box button {
+      width: 100%;
+      margin-top: 10px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    .reminder-box button {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .reminder-box button:hover {
+      background: #005fa3;
+    }
+
+    .reminder-list {
+      margin-top: 15px;
+      list-style: none;
+      padding: 0;
+    }
+
+    .reminder-list li {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 5px;
+      padding: 8px;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+
+    /* About Us Styles */
+    .about-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px;
+    }
+
+    .about-container h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: var(--secondary-color);
+    }
+
+    .about-container p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      margin-bottom: 20px;
+      text-align: justify;
+    }
+
+    .team-section {
+      margin-top: 40px;
+    }
+
+    .team-members {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .member {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      padding: 20px;
+      width: 250px;
+      text-align: center;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .member img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin-bottom: 10px;
+    }
+
+    /* Contact Styles */
+    .contact-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px;
+    }
+
+    .contact-info {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .contact-info p {
+      font-size: 1.1rem;
+      margin: 6px 0;
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .contact-form label {
+      font-weight: 600;
+    }
+
+    .contact-form input, 
+    .contact-form textarea {
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .light-theme .contact-form input,
+    .light-theme .contact-form textarea {
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .contact-form textarea {
+      resize: none;
+      height: 120px;
+    }
+
+    .map {
+      margin-top: 40px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    iframe {
+      width: 100%;
+      height: 300px;
+      border: none;
+    }
+
+    /* Profile Styles */
+    .profile-container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 30px;
+    }
+
+    .profile-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .profile-container label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    .profile-container input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 4px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .light-theme .profile-container input {
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .profile-container button {
+      margin-top: 20px;
+      padding: 10px;
+      width: 100%;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: var(--success-color);
+      color: white;
+      transition: background-color 0.3s ease;
+    }
+
+    .profile-container button:hover {
+      background-color: #218838;
+    }
+
+    /* Settings Styles */
+    .settings-container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 30px;
+    }
+
+    .settings-section {
+      margin-bottom: 20px;
+    }
+
+    .settings-section h3 {
+      margin-bottom: 12px;
+    }
+
+    .setting {
+      margin-bottom: 12px;
+    }
+
+    .setting label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+
+    .setting input, .setting select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .light-theme .setting input, .light-theme .setting select {
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .toggle {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .toggle input {
+      transform: scale(1.2);
+      cursor: pointer;
+    }
+
+    /* Footer Styles */
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.6);
+      color: #ccc;
+      margin-top: 50px;
+    }
+
+    .light-theme footer {
+      background: rgba(255, 255, 255, 0.6);
+      color: #666;
+    }
+
+    footer a {
+      color: var(--secondary-color);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Theme Toggle Button */
+    .theme-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.6);
+      border: none;
+      border-radius: 50%;
+      padding: 10px 14px;
+      cursor: pointer;
+      color: #fff;
+      font-size: 1.2rem;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+
+    .theme-toggle:hover {
+      background: rgba(0, 0, 0, 0.8);
+      transform: scale(1.1);
+    }
+
+    /* Petals Animation */
+    .petal {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      background: url('https://cdn-icons-png.flaticon.com/512/616/616408.png') no-repeat center center;
+      background-size: contain;
+      pointer-events: none;
+      z-index: 1;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-50px) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Welcome Message */
+    .welcome-message {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 1.5rem;
+    }
+
+    /* Security Notice */
+    .security-notice {
+      background: rgba(255, 0, 0, 0.2);
+      border: 1px solid rgba(255, 0, 0, 0.5);
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .dashboard-container {
+        grid-template-columns: 1fr;
+      }
+
+      .calendar-container {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      nav ul {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .header-content {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .auth-buttons {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="glass">
+    <div class="container header-content">
+      <a href="#" class="logo" data-page="home">South African Airline</a>
+      <nav id="mainNav">
+        <ul>
+          <li><a href="#" class="nav-link" data-page="home">Home</a></li>
+          <li><a href="#" class="nav-link" data-page="booking">Booking</a></li>
+          <li><a href="#" class="nav-link" data-page="calendar">Calendar</a></li>
+          <li><a href="#" class="nav-link" data-page="about">About Us</a></li>
+          <li><a href="#" class="nav-link" data-page="contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="auth-buttons" id="authButtons">
+        <a href="#" class="btn btn-outline" id="loginBtn">Log In</a>
+        <a href="#" class="btn btn-primary" id="registerBtn">Register</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <!-- Home Page -->
+    <section id="home" class="page">
+      <div class="welcome-message">
+        <h1>Welcome to South African Airline</h1>
+        <p>Your trusted partner for safe and convenient flights across South Africa</p>
+      </div>
+      <div class="dashboard-container">
+        <div class="card glass profile-info">
+          <h3>Your Details</h3>
+          <p><strong>Name:</strong> <span id="dashName">Loading...</span></p>
+          <p><strong>Email:</strong> <span id="dashEmail">Loading...</span></p>
+          <p><strong>Cell Phone:</strong> <span id="dashCell">Loading...</span></p>
+          <p><strong>Province:</strong> <span id="dashProvince">Loading...</span></p>
+        </div>
+        <div class="card glass">
+          <h3>Quick Actions</h3>
+          <div class="quick-links">
+            <a href="#" data-page="booking">Book a Flight</a>
+            <a href="#" data-page="calendar">View Calendar</a>
+            <a href="#" data-page="profile">Update Profile</a>
+            <a href="#" data-page="settings">Settings</a>
+          </div>
+          <div class="recent-activity" style="margin-top:20px;">
+            <h3>Recent Bookings</h3>
+            <ul id="recentBookings">
+              <!-- Recent bookings will be populated here -->
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Login Page -->
+    <section id="login" class="page active">
+      <div class="auth-container">
+        <div class="auth-form glass">
+          <h1>LOG IN</h1>
+          <div class="security-notice" id="loginNotice">
+            Please register first if you don't have an account
+          </div>
+          <form id="loginForm">
+            <input type="email" id="loginEmail" placeholder="Email" required />
+            <input type="password" id="loginPassword" placeholder="Password" required />
+            <button type="submit">LOG IN</button>
+          </form>
+          <a href="#" class="form-link" data-page="register">Don't have an account? Register</a>
+          <a href="#" class="form-link" data-page="forgot-password">Forgot Password?</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Register Page -->
+    <section id="register" class="page">
+      <div class="auth-container">
+        <div class="auth-form glass">
+          <h1>REGISTER</h1>
+          <form id="registerForm">
+            <input type="text" id="Name" placeholder="First Name" required />
+            <input type="text" id="Surname" placeholder="Last Name" required />
+            <input type="email" id="Email" placeholder="Email" required />
+            <input type="text" id="Cellphone" placeholder="Phone Number" required />
+            <input type="password" id="Password" placeholder="Password" required />
+            <button type="submit">REGISTER</button>
+          </form>
+          <a href="#" class="form-link" data-page="login">Already have an account? Log in</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Forgot Password Page -->
+    <section id="forgot-password" class="page">
+      <div class="auth-container">
+        <div class="auth-form glass">
+          <h2>Forgot Password</h2>
+          <form id="forgotPasswordForm">
+            <input type="email" id="resetEmail" placeholder="Enter your email" required />
+            <button type="submit">Send Reset Link</button>
+          </form>
+          <a href="#" class="form-link" data-page="login">Back to Login</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Booking Page -->
+    <section id="booking" class="page">
+      <div class="security-notice" id="bookingNotice" style="display: none;">
+        Please log in to book a flight
+      </div>
+      <div class="card glass" id="bookingFormContainer">
+        <h1>Book a Flight ✈️</h1>
+        <form id="bookingForm">
+          <label>From Province:</label>
+          <select id="fromProvince" required></select>
+
+          <label>To Province:</label>
+          <select id="toProvince" required></select>
+
+          <label>Flight Date:</label>
+          <input type="date" id="flightDate" required />
+
+          <button type="submit">Book Flight</button>
+        </form>
+        <p id="bookingMessage"></p>
+      </div>
+    </section>
+
+    <!-- Calendar Page -->
+    <section id="calendar" class="page">
+      <div class="security-notice" id="calendarNotice" style="display: none;">
+        Please log in to access the calendar
+      </div>
+      <div class="calendar-container glass" id="calendarContainer">
+        <div class="calendar">
+          <h2 id="monthYear"></h2>
+          <div id="calendarGrid"></div>
+        </div>
+        <div class="reminder-box">
+          <h3>Set Reminder</h3>
+          <label for="reminderDate">Date:</label>
+          <input type="text" id="reminderDate" readonly>
+
+          <label for="reminderText">Note:</label>
+          <textarea id="reminderText" rows="3" placeholder="e.g., Flight to Cape Town at 9 AM"></textarea>
+
+          <button id="addReminderBtn">Add Reminder</button>
+
+          <ul class="reminder-list" id="reminderList"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Us Page -->
+    <section id="about" class="page">
+      <div class="about-container glass">
+        <h2>About Us</h2>
+        <p>
+          Welcome to <strong>South African Airline</strong> — your trusted partner for affordable, safe, and convenient flight bookings across South Africa.
+          Our platform connects travelers with the best flight options between all major provinces, ensuring a smooth and reliable booking experience.
+        </p>
+
+        <p>
+          Founded with the vision to make air travel accessible to everyone, we combine technology and passion for aviation to deliver exceptional service.
+          Whether you're traveling for business or leisure, our goal is to make every journey enjoyable, comfortable, and stress-free.
+        </p>
+
+        <p>
+          We value customer satisfaction, security, and transparency. That's why our booking system is designed to be fast, simple, and secure.
+          With real-time flight updates, reminders, and support, we ensure you never miss your next destination.
+        </p>
+
+        <div class="team-section">
+          <h2>Meet Our Team</h2>
+          <div class="team-members">
+            <div class="member">
+              <img src="https://cdn-icons-png.flaticon.com/512/194/194935.png" alt="Team Member">
+              <h3>Kowny</h3>
+              <p>Lead Developer</p>
+            </div>
+            <div class="member">
+              <img src="https://cdn-icons-png.flaticon.com/512/194/194936.png" alt="Team Member">
+              <h3>Thabo</h3>
+              <p>Operations Manager</p>
+            </div>
+            <div class="member">
+              <img src="https://cdn-icons-png.flaticon.com/512/194/194938.png" alt="Team Member">  
+              <h3>Ayanda</h3>
+              <p>Customer Support</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Page -->
+    <section id="contact" class="page">
+      <div class="contact-container glass">
+        <h2>Contact Us</h2>
+
+        <div class="contact-info">
+          <p><strong>📍 Address:</strong> 123 Aviation Street, Johannesburg, South Africa</p>
+          <p><strong>📞 Phone:</strong> +27 10 123 4567</p>
+          <p><strong>📧 Email:</strong> support@saairline.co.za</p>
+          <p><strong>🕒 Working Hours:</strong> Mon - Fri | 8:00 AM - 5:00 PM</p>
+        </div>
+
+        <form id="contactForm" class="contact-form">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" name="name" placeholder="Enter your name" required>
+
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+          <label for="message">Message</label>
+          <textarea id="message" name="message" placeholder="Write your message..." required></textarea>
+
+          <button type="submit" class="btn btn-primary">Send Message</button>
+        </form>
+
+        <div class="map">
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3585.766059940508!2d28.047305315028497!3d-26.20410298344166!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1e950dce4c1a4e1d%3A0x81a4b94af4f83b8a!2sJohannesburg%2C%20South%20Africa!5e0!3m2!1sen!2sza!4v1614943872572!5m2!1sen!2sza"
+            allowfullscreen="" loading="lazy"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- Profile Page -->
+    <section id="profile" class="page">
+      <div class="security-notice" id="profileNotice" style="display: none;">
+        Please log in to view your profile
+      </div>
+      <div class="profile-container glass" id="profileContainer">
+        <h2>Profile</h2>
+
+        <form id="profileForm">
+          <label for="surname">Surname</label>
+          <input type="text" id="surname" name="surname" readonly />
+
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" readonly />
+
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" readonly />
+
+          <label for="cellphone">Cell Phone</label>
+          <input type="text" id="cellphone" name="cellphone" readonly />
+
+          <label for="province">Province</label>
+          <input type="text" id="province" name="province" readonly />
+
+          <button type="button" id="editBtn">Edit Profile</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Settings Page -->
+    <section id="settings" class="page">
+      <div class="security-notice" id="settingsNotice" style="display: none;">
+        Please log in to access settings
+      </div>
+      <div class="settings-container glass" id="settingsContainer">
+        <h2>Advanced Settings</h2>
+
+        <div class="settings-section">
+          <h3>Privacy & Security</h3>
+          <div class="setting toggle">
+            <label for="2fa">Enable Two-Factor Authentication</label>
+            <input type="checkbox" id="2fa" />
+          </div>
+          <div class="setting">
+            <label for="password">Change Password</label>
+            <input type="password" id="password" placeholder="Enter new password" />
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h3>System Preferences</h3>
+          <div class="setting">
+            <label for="theme">Theme</label>
+            <select id="theme">
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+              <option value="auto">Auto</option>
+            </select>
+          </div>
+          <div class="setting">
+            <label for="timezone">Time Zone</label>
+            <select id="timezone">
+              <option value="UTC+2">South Africa (UTC+2)</option>
+              <option value="UTC+1">Central Europe (UTC+1)</option>
+              <option value="UTC-5">Eastern US (UTC-5)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h3>Developer Options</h3>
+          <div class="setting toggle">
+            <label for="debug">Enable Debug Mode</label>
+            <input type="checkbox" id="debug" />
+          </div>
+          <div class="setting toggle">
+            <label for="beta">Join Beta Program</label>
+            <input type="checkbox" id="beta" />
+          </div>
+        </div>
+
+        <button class="btn btn-primary" id="saveSettingsBtn">Save Changes</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      &copy; 2025 South African Airline. All rights reserved. |
+      <a href="#" data-page="contact">Contact Us</a> |
+      <a href="#" data-page="about">About Us</a>
+    </div>
+  </footer>
+
+  <!-- Theme Toggle Button -->
+  <button class="theme-toggle" id="themeToggle">🌙</button>
+
+  <script>
+    // Application State
+    let currentUser = null;
+    let isLoggedIn = false;
+
+    // Initialize the application
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeApp();
+      setupEventListeners();
+      loadUserData();
+      generateCalendar();
+      
+      // Always redirect to login page on initial load
+      if (!isLoggedIn) {
+        showPage('login');
+      }
+    });
+
+    // Initialize the application
+    function initializeApp() {
+      // Check if user is logged in
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+      const loggedInUser = localStorage.getItem('currentUser');
+      
+      if (loggedInUser) {
+        currentUser = JSON.parse(loggedInUser);
+        isLoggedIn = true;
+        updateUIForLoggedInUser();
+      } else {
+        // If no user is logged in, show login page
+        showPage('login');
+      }
+
+      // Initialize provinces for booking form
+      initializeProvinces();
+    }
+
+    // Set up event listeners
+    function setupEventListeners() {
+      // Navigation
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const page = this.getAttribute('data-page');
+          
+          // Check if user is logged in for protected pages
+          if (isPageProtected(page) && !isLoggedIn) {
+            showPage('login');
+            return;
+          }
+          
+          showPage(page);
+        });
+      });
+
+      // Auth buttons
+      document.getElementById('loginBtn').addEventListener('click', function(e) {
+        e.preventDefault();
+        showPage('login');
+      });
+
+      document.getElementById('registerBtn').addEventListener('click', function(e) {
+        e.preventDefault();
+        showPage('register');
+      });
+
+      // Form submissions
+      document.getElementById('loginForm').addEventListener('submit', handleLogin);
+      document.getElementById('registerForm').addEventListener('submit', handleRegister);
+      document.getElementById('forgotPasswordForm').addEventListener('submit', handleForgotPassword);
+      document.getElementById('bookingForm').addEventListener('submit', handleBooking);
+      document.getElementById('contactForm').addEventListener('submit', handleContact);
+      
+      // Profile edit button
+      document.getElementById('editBtn').addEventListener('click', toggleProfileEdit);
+      
+      // Settings save button
+      document.getElementById('saveSettingsBtn').addEventListener('click', saveSettings);
+      
+      // Theme toggle
+      document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+      
+      // Calendar reminder button
+      document.getElementById('addReminderBtn').addEventListener('click', addReminder);
+      
+      // Quick links
+      document.querySelectorAll('.quick-links a').forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const page = this.getAttribute('data-page');
+          
+          // Check if user is logged in for protected pages
+          if (isPageProtected(page) && !isLoggedIn) {
+            showPage('login');
+            return;
+          }
+          
+          showPage(page);
+        });
+      });
+    }
+
+    // Check if a page requires login
+    function isPageProtected(pageId) {
+      const protectedPages = ['home', 'booking', 'calendar', 'profile', 'settings'];
+      return protectedPages.includes(pageId);
+    }
+
+    // Page navigation
+    function showPage(pageId) {
+      // Hide all pages
+      document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+      });
+      
+      // Show the selected page
+      document.getElementById(pageId).classList.add('active');
+      
+      // Update active nav link
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('data-page') === pageId) {
+          link.classList.add('active');
+        }
+      });
+      
+      // Handle security for protected pages
+      if (isPageProtected(pageId) && !isLoggedIn) {
+        // Show security notice and hide content for protected pages
+        const noticeElement = document.getElementById(`${pageId}Notice`);
+        const contentElement = document.getElementById(`${pageId}Container`) || 
+                              document.getElementById(`${pageId}FormContainer`);
+        
+        if (noticeElement) noticeElement.style.display = 'block';
+        if (contentElement) contentElement.style.display = 'none';
+      } else {
+        // Show content for accessible pages
+        const noticeElement = document.getElementById(`${pageId}Notice`);
+        const contentElement = document.getElementById(`${pageId}Container`) || 
+                              document.getElementById(`${pageId}FormContainer`);
+        
+        if (noticeElement) noticeElement.style.display = 'none';
+        if (contentElement) contentElement.style.display = 'block';
+      }
+      
+      // Special handling for certain pages
+      if (pageId === 'home') {
+        loadDashboardData();
+      } else if (pageId === 'calendar') {
+        generateCalendar();
+      }
+    }
+
+    // Authentication functions
+    function handleLogin(e) {
+      e.preventDefault();
+      
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value.trim();
+      
+      if (!email || !password) {
+        alert("Please fill in all fields.");
+        return;
+      }
+      
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+      const user = users.find(u => u.email === email && u.password === password);
+      
+      if (user) {
+        currentUser = user;
+        isLoggedIn = true;
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        updateUIForLoggedInUser();
+        showPage('home');
+        alert("Login successful!");
+      } else {
+        alert("Invalid email or password. Please register first.");
+        showPage('register');
+      }
+    }
+
+    function handleRegister(e) {
+      e.preventDefault();
+      
+      const Name = document.getElementById('Name').value.trim();
+      const Surname = document.getElementById('Surname').value.trim();
+      const Email = document.getElementById('Email').value.trim();
+      const Cellphone = document.getElementById('Cellphone').value.trim();
+      const Password = document.getElementById('Password').value.trim();
+
+      if (!Name || !Surname || !Email || !Cellphone || !Password) {
+        alert("Please fill in all fields.");
+        return;
+      }
+
+      // Load existing users
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+
+      // Check if email or phone already exists
+      const exists = users.some(
+        u => u.email === Email || u.cellphone === Cellphone
+      );
+      if (exists) {
+        alert("An account with that email or phone already exists.");
+        return;
+      }
+
+      // Add new user
+      users.push({ Name, Surname, email: Email, cellphone: Cellphone, password: Password });
+      localStorage.setItem('users', JSON.stringify(users));
+      
+      // Auto-login the new user
+      currentUser = { Name, Surname, email: Email, cellphone: Cellphone };
+      isLoggedIn = true;
+      localStorage.setItem('currentUser', JSON.stringify(currentUser));
+      updateUIForLoggedInUser();
+      showPage('home');
+      alert("Registration successful!");
+    }
+
+    function handleForgotPassword(e) {
+      e.preventDefault();
+      const email = document.getElementById('resetEmail').value.trim();
+      
+      if (!email) {
+        alert("Please enter your email address.");
+        return;
+      }
+      
+      // Check if email exists in users
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+      const userExists = users.some(u => u.email === email);
+      
+      if (!userExists) {
+        alert("No account found with that email. Please register first.");
+        showPage('register');
+        return;
+      }
+      
+      // In a real application, you would send a reset link to the email
+      alert(`A password reset link has been sent to ${email}.`);
+      showPage('login');
+    }
+
+    function updateUIForLoggedInUser() {
+      // Update auth buttons
+      document.getElementById('loginBtn').style.display = 'none';
+      document.getElementById('registerBtn').style.display = 'none';
+      
+      // Show logout button
+      const authButtons = document.getElementById('authButtons');
+      if (!document.getElementById('logoutBtn')) {
+        const logoutBtn = document.createElement('a');
+        logoutBtn.href = '#';
+        logoutBtn.className = 'btn btn-outline';
+        logoutBtn.id = 'logoutBtn';
+        logoutBtn.textContent = 'Logout';
+        logoutBtn.addEventListener('click', handleLogout);
+        authButtons.appendChild(logoutBtn);
+      }
+      
+      // Update user info in dashboard
+      if (currentUser) {
+        document.getElementById('dashName').textContent = currentUser.Name || 'Not set';
+        document.getElementById('dashEmail').textContent = currentUser.email || 'Not set';
+        document.getElementById('dashCell').textContent = currentUser.cellphone || 'Not set';
+        document.getElementById('dashProvince').textContent = currentUser.Province || 'Not set';
+        
+        // Update profile form
+        document.getElementById('surname').value = currentUser.Surname || '';
+        document.getElementById('name').value = currentUser.Name || '';
+        document.getElementById('email').value = currentUser.email || '';
+        document.getElementById('cellphone').value = currentUser.cellphone || '';
+        document.getElementById('province').value = currentUser.Province || '';
+      }
+    }
+
+    function handleLogout(e) {
+      e.preventDefault();
+      currentUser = null;
+      isLoggedIn = false;
+      localStorage.removeItem('currentUser');
+      
+      // Update UI
+      document.getElementById('loginBtn').style.display = 'inline-block';
+      document.getElementById('registerBtn').style.display = 'inline-block';
+      document.getElementById('logoutBtn').remove();
+      
+      // Redirect to login page
+      showPage('login');
+      alert("You have been logged out successfully.");
+    }
+
+    // Booking functions
+    function initializeProvinces() {
+      const provinces = [
+        "Gauteng", "KwaZulu-Natal", "Western Cape", "Eastern Cape", 
+        "Free State", "Limpopo", "Mpumalanga", "North West", "Northern Cape"
+      ];
+      
+      const fromSelect = document.getElementById('fromProvince');
+      const toSelect = document.getElementById('toProvince');
+      
+      provinces.forEach(province => {
+        const option1 = document.createElement('option');
+        option1.value = province;
+        option1.textContent = province;
+        fromSelect.appendChild(option1);
+        
+        const option2 = document.createElement('option');
+        option2.value = province;
+        option2.textContent = province;
+        toSelect.appendChild(option2);
+      });
+    }
+
+    function handleBooking(e) {
+      e.preventDefault();
+      
+      if (!isLoggedIn) {
+        alert("Please log in to book a flight.");
+        showPage('login');
+        return;
+      }
+      
+      const from = document.getElementById('fromProvince').value;
+      const to = document.getElementById('toProvince').value;
+      const date = document.getElementById('flightDate').value;
+      
+      if (from === to) {
+        alert("Departure and destination cannot be the same.");
+        return;
+      }
+      
+      // Save booking
+      const bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+      bookings.push({
+        from, 
+        to, 
+        date, 
+        bookedAt: new Date().toLocaleString(),
+        user: currentUser.email
+      });
+      localStorage.setItem('bookings', JSON.stringify(bookings));
+      
+      // Add alert
+      const alerts = JSON.parse(localStorage.getItem('flightAlerts')) || [];
+      alerts.unshift({
+        title: "Flight Booking Confirmed!",
+        message: `Your flight from ${from} to ${to} on ${date} has been booked.`,
+        time: new Date().toLocaleString()
+      });
+      localStorage.setItem('flightAlerts', JSON.stringify(alerts));
+      
+      document.getElementById('bookingMessage').textContent = `Flight booked from ${from} to ${to} on ${date}.`;
+      document.getElementById('bookingForm').reset();
+      
+      // Update dashboard
+      loadDashboardData();
+    }
+
+    // Calendar functions
+    function generateCalendar() {
+      const monthYear = document.getElementById('monthYear');
+      const calendarGrid = document.getElementById('calendarGrid');
+      const now = new Date();
+      
+      const months = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+      ];
+      
+      const firstDay = new Date(now.getFullYear(), now.getMonth(), 1).getDay();
+      const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+      
+      monthYear.textContent = `${months[now.getMonth()]} ${now.getFullYear()}`;
+      
+      // Create header
+      calendarGrid.innerHTML = `
+        <div class="header">Sun</div>
+        <div class="header">Mon</div>
+        <div class="header">Tue</div>
+        <div class="header">Wed</div>
+        <div class="header">Thu</div>
+        <div class="header">Fri</div>
+        <div class="header">Sat</div>
+      `;
+      
+      // Add empty cells for days before the first day of the month
+      for (let i = 0; i < firstDay; i++) {
+        calendarGrid.innerHTML += "<div></div>";
+      }
+      
+      // Add days of the month
+      for (let day = 1; day <= daysInMonth; day++) {
+        const div = document.createElement("div");
+        div.textContent = day;
+        div.addEventListener("click", () => selectDate(day));
+        calendarGrid.appendChild(div);
+      }
+    }
+
+    function selectDate(day) {
+      document.querySelectorAll("#calendarGrid div").forEach(d => {
+        if (!d.classList.contains('header')) {
+          d.classList.remove("selected");
+        }
+      });
+      
+      const selected = [...document.getElementById('calendarGrid').children].find(el => el.textContent == day);
+      if (selected) selected.classList.add("selected");
+      
+      const now = new Date();
+      const months = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+      ];
+      
+      document.getElementById('reminderDate').value = `${day} ${months[now.getMonth()]} ${now.getFullYear()}`;
+    }
+
+    function addReminder() {
+      const date = document.getElementById('reminderDate').value;
+      const text = document.getElementById('reminderText').value.trim();
+      
+      if (!date || !text) {
+        alert("Please select a date and enter a reminder note.");
+        return;
+      }
+      
+      const li = document.createElement("li");
+      li.textContent = `${date}: ${text}`;
+      document.getElementById('reminderList').appendChild(li);
+      document.getElementById('reminderText').value = "";
+      alert(`Reminder set for ${date}`);
+    }
+
+    // Profile functions
+    function toggleProfileEdit() {
+      const editBtn = document.getElementById('editBtn');
+      const fields = ['surname', 'name', 'email', 'cellphone', 'province'];
+      
+      if (editBtn.textContent === 'Edit Profile') {
+        // Enable editing
+        fields.forEach(field => {
+          document.getElementById(field).readOnly = false;
+        });
+        editBtn.textContent = 'Save Changes';
+      } else {
+        // Save changes
+        if (currentUser) {
+          currentUser.Surname = document.getElementById('surname').value;
+          currentUser.Name = document.getElementById('name').value;
+          currentUser.email = document.getElementById('email').value;
+          currentUser.cellphone = document.getElementById('cellphone').value;
+          currentUser.Province = document.getElementById('province').value;
+          
+          // Update in localStorage
+          const users = JSON.parse(localStorage.getItem('users')) || [];
+          const userIndex = users.findIndex(u => u.email === currentUser.email);
+          if (userIndex !== -1) {
+            users[userIndex] = currentUser;
+            localStorage.setItem('users', JSON.stringify(users));
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+          }
+          
+          // Update dashboard
+          updateUIForLoggedInUser();
+          
+          alert("Profile updated successfully!");
+        }
+        
+        // Disable editing
+        fields.forEach(field => {
+          document.getElementById(field).readOnly = true;
+        });
+        editBtn.textContent = 'Edit Profile';
+      }
+    }
+
+    // Settings functions
+    function saveSettings() {
+      localStorage.setItem('2fa', document.getElementById('2fa').checked);
+      localStorage.setItem('password', document.getElementById('password').value);
+      localStorage.setItem('theme', document.getElementById('theme').value);
+      localStorage.setItem('timezone', document.getElementById('timezone').value);
+      localStorage.setItem('debug', document.getElementById('debug').checked);
+      localStorage.setItem('beta', document.getElementById('beta').checked);
+      
+      alert('Settings saved successfully!');
+    }
+
+    function loadUserData() {
+      // Load saved settings
+      document.getElementById('2fa').checked = localStorage.getItem('2fa') === 'true';
+      document.getElementById('password').value = localStorage.getItem('password') || '';
+      document.getElementById('theme').value = localStorage.getItem('theme') || 'dark';
+      document.getElementById('timezone').value = localStorage.getItem('timezone') || 'UTC+2';
+      document.getElementById('debug').checked = localStorage.getItem('debug') === 'true';
+      document.getElementById('beta').checked = localStorage.getItem('beta') === 'true';
+      
+      // Apply theme
+      if (localStorage.getItem('theme') === 'light') {
+        document.body.classList.add('light-theme');
+        document.getElementById('themeToggle').textContent = '☀️';
+      }
+    }
+
+    // Theme functions
+    function toggleTheme() {
+      const themeToggle = document.getElementById('themeToggle');
+      
+      if (document.body.classList.contains('light-theme')) {
+        document.body.classList.remove('light-theme');
+        themeToggle.textContent = '🌙';
+        localStorage.setItem('theme', 'dark');
+      } else {
+        document.body.classList.add('light-theme');
+        themeToggle.textContent = '☀️';
+        localStorage.setItem('theme', 'light');
+      }
+    }
+
+    // Contact form
+    function handleContact(e) {
+      e.preventDefault();
+      alert('Thank you for contacting us! Our support team will get back to you shortly.');
+      document.getElementById('contactForm').reset();
+    }
+
+    // Dashboard data
+    function loadDashboardData() {
+      if (!isLoggedIn) return;
+      
+      // Load recent bookings
+      const bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+      const userBookings = bookings.filter(booking => booking.user === currentUser.email);
+      const recentBookingsList = document.getElementById('recentBookings');
+      
+      recentBookingsList.innerHTML = '';
+      
+      if (userBookings.length === 0) {
+        recentBookingsList.innerHTML = '<li>No recent bookings</li>';
+      } else {
+        userBookings.slice(0, 5).forEach(booking => {
+          const li = document.createElement('li');
+          li.textContent = `${booking.from} to ${booking.to} on ${booking.date}`;
+          recentBookingsList.appendChild(li);
+        });
+      }
+    }
+
+    // Utility functions
+    function addPetals(count) {
+      for (let i = 0; i < count; i++) {
+        const petal = document.createElement('div');
+        petal.classList.add('petal');
+        petal.style.left = Math.random() * 100 + "vw";
+        petal.style.animationDuration = (5 + Math.random() * 10) + "s";
+        petal.style.opacity = Math.random();
+        document.body.appendChild(petal);
+      }
+    }
+
+    function removePetals() {
+      document.querySelectorAll('.petal').forEach(p => p.remove());
+
+      // Update your frontend authentication functions
+const API_BASE_URL = 'http://localhost:8080/api';
+
+// Store JWT token
+let authToken = localStorage.getItem('authToken');
+
+// Update login function
+async function handleLogin(e) {
+    e.preventDefault();
+    
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value.trim();
+    
+    try {
+        const response = await fetch(`${API_BASE_URL}/auth/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            authToken = data.token;
+            localStorage.setItem('authToken', authToken);
+            localStorage.setItem('currentUser', JSON.stringify(data.user));
+            currentUser = data.user;
+            isLoggedIn = true;
+            updateUIForLoggedInUser();
+            showPage('home');
+            alert("Login successful!");
+        } else {
+            alert(data.message);
+        }
+    } catch (error) {
+        console.error('Login error:', error);
+        alert('Login failed. Please try again.');
+    }
+}
+
+// Add authorization header to all authenticated requests
+function getAuthHeaders() {
+    return {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`
+    };
+}
+
+// Example of making an authenticated request
+async function loadDashboardData() {
+    if (!isLoggedIn) return;
+    
+    try {
+        const response = await fetch(`${API_BASE_URL}/bookings`, {
+            headers: getAuthHeaders()
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            // Update UI with bookings data
+            const recentBookingsList = document.getElementById('recentBookings');
+            recentBookingsList.innerHTML = '';
+            
+            if (data.bookings.length === 0) {
+                recentBookingsList.innerHTML = '<li>No recent bookings</li>';
+            } else {
+                data.bookings.slice(0, 5).forEach(booking => {
+                    const li = document.createElement('li');
+                    li.textContent = `${booking.from} to ${booking.to} on ${booking.date}`;
+                    recentBookingsList.appendChild(li);
+                });
+            }
+        }
+    } catch (error) {
+        console.error('Error loading dashboard data:', error);
+    }
+}
+    }
+  </script>
+</body>
+</html>
